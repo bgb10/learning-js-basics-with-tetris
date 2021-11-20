@@ -41,4 +41,8 @@ class Piece {
         this.x = p.x;
         this.y = p.y;
     }
+
+    setShape(shape) {
+        this.shape = shape;
+    }
 }
