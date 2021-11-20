@@ -16,5 +16,34 @@ function play() {
     let piece = new Piece(ctx);
     piece.draw();
 
-    // board.piece = piece;
+    board.piece = piece;
 }
+
+moves = {
+    [KEY.LEFT] : p => ({...p, x: p.x - 1}),
+    [KEY.RIGHT] : p => ({...p, x: p.x + 1}),
+    [KEY.DOWN] : p => ({...p, y: p.y + 1})
+};
+
+document.addEventListener('keydown', event => {
+    // 누른 키가 LEFT, RIGHT, UP 에 대응된다면
+    if(moves[event.keyCode]) {
+        // 이벤트 버블링을 막는다.
+        event.preventDefault();
+
+        // 조각의 새 상태를 얻는다.
+        let p = moves[event.keyCode](board.piece);
+
+        if(board.valid(p)) {
+            // 이동이 가능한 상태라면 조각을 이동한다.
+            board.piece.move(p);
+
+            // 그리기 전에 이전 좌표를 지운다.
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // 그린다.
+            board.piece.draw();
+        }
+    }
+})
+
