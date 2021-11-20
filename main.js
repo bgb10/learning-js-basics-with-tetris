@@ -14,6 +14,10 @@ function play() {
     board.reset();
 
     let piece = new Piece(ctx);
+
+    piece.shape = getRandomShapes();
+    piece.color = getRandomColors();
+
     piece.draw();
 
     board.piece = piece;
