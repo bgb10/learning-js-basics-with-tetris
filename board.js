@@ -1,19 +1,141 @@
 class Board {
+    currentPiece;
     grid;
 
-    // 새 게임이 시작되면 보드를 초기화한다.
-    reset() {
-        this.grid = this.getEmptyBoard();
+    start() {
+        this.currentPiece = new Piece();
+
+        this.startPieceDrops();
     }
 
-    // 0으로 채워진 행렬을 얻는다.
+    startPieceDrops() {
+        setInterval(this.dropPiece, 1000, this);
+    }
+
+    dropPiece(board) {
+        // 여기 있는 this가... window 객체임 ㅋㅋㅋ
+        board.moveDown();
+
+        if(board.isCurrentPieceFixed()) {
+            board.putCurrentPieceOnGrid();
+
+            board.currentPiece = new Piece();
+        }
+    }
+
+    putCurrentPieceOnGrid() {
+        // index 숫자를 grid 에 모양대로 대입
+        this.currentPiece.shape.forEach((row, dy) => {
+            row.forEach((value, dx) => {
+                let x = this.currentPiece.x + dx;
+                let y = this.currentPiece.y + dy;
+                
+                if(value != 0) {
+                    this.grid[x][y] = value;
+                }
+            });
+        });
+
+        this.currentPiece = null;
+    }
+
+    isCurrentPieceFixed() {
+        // 모든 방향으로 이동할 수 없다면 fixed 된 상태
+
+
+
+        return false;
+    }
+
+    reset() {
+        this.currentPiece = null;
+        this.grid = this.getEmptyBoard();
+        this.stopPieceDrops();
+    }
+
+    stopPieceDrops() {
+        clearInterval(this.dropPiece);
+    }
+
     getEmptyBoard() {
         return Array.from(
             { length: ROWS }, () => Array(COLS).fill(0)
         );
     }
 
-    valid(p) {
+    rotate() {
+        if(this.isRotatable()) {
+            this.currentPiece.rotate();
+        }
+    }
+
+    isRotatable() {
+        let rotatedPiece = this.currentPiece.getCopy();
+
+        rotatedPiece.rotate();
+
+        if(this.isValid(rotatedPiece)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    moveDown() {
+        if(this.isMovableToDown()) {
+            this.currentPiece.moveDown();
+        }
+    }
+
+    isMovableToDown() {
+        let moveDownPiece = this.currentPiece.getCopy();
+
+        moveDownPiece.moveDown();
+
+        if(this.isValid(moveDownPiece)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    moveLeft() {
+        if(this.isMovableToLeft()) {
+            this.currentPiece.moveLeft();
+        }
+    }
+
+    isMovableToLeft() {
+        let moveLeftPiece = this.currentPiece.getCopy();
+
+        moveLeftPiece.moveLeft();
+        
+        if(this.isValid(moveLeftPiece)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    moveRight() {
+        if(this.isMovableToRight()) {
+            this.currentPiece.moveRight();
+        }
+    }
+
+    isMovableToRight() {
+        let moveRightPiece = this.currentPiece.getCopy();
+
+        moveRightPiece.moveRight();
+
+        if(this.isValid(moveRightPiece)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    isValid(p) {
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;
@@ -25,24 +147,6 @@ class Board {
                 );
             });
         });
-    }
-
-    rotate(p) {
-        // deep copy 및 immtability 를 위해 JSON 으로 복사
-        let clone = JSON.parse(JSON.stringify(p));
-
-        // 행렬을 변환한다. p는 Piece의 인스턴스이다.
-        for (let y = 0; y < clone.shape.length; ++y) {
-            for (let x = 0; x < y; ++x) {
-                [clone.shape[x][y], clone.shape[y][x]] =
-                    [clone.shape[y][x], clone.shape[x][y]];
-            }
-        }
-
-        // 열 순서대로 뒤집는다.
-        clone.shape.forEach(row => row.reverse());
-
-        return clone;
     }
 
     isEmpty(value) {

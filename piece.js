@@ -3,46 +3,55 @@ class Piece {
     y;
     color;
     shape;
-    ctx;
 
-    constructor(ctx) {
-        this.ctx = ctx;
-        this.spawn();
+    constructor() {
+        this.randomizedSpawn();
     }
 
-    spawn() {
-        this.color = 'blue';
-        this.shape = [
-            [2, 0, 0],
-            [2, 2, 2],
-            [0, 0, 0]
-        ];
+    randomizedSpawn() {
+        this.color = getRandomColors();
+        this.shape = getRandomShapes();
 
         // Starting position
         this.x = 3;
         this.y = 0;
     }
 
-    draw() {
-        this.ctx.fillStyle = this.color;
-        this.shape.forEach((row, y) => {
-            row.forEach((value, x) => {
-                // this.x, this.y 는 shape의 상단 왼쪽 좌표이다.
-                // shape 안에 있는 블록 좌표에 x, y를 더한다.
-                // 보드에서 블록의 좌표는 this.x + x, this.y + y 가 된다.
-                if(value > 0) {
-                    this.ctx.fillRect(this.x + x, this.y + y, 1, 1);
-                }
-            });
-        });
+    getCopy() {
+        let copied = new Piece();
+
+        copied.changeTo(this);
+
+        return copied;
     }
 
-    move(p) {
+    rotate() {
+        for (let y = 0; y < this.shape.length; ++y) {
+            for (let x = 0; x < y; ++x) {
+                [this.shape[x][y], this.shape[y][x]] =
+                [this.shape[y][x], this.shape[x][y]];
+            }
+        }
+
+        this.shape.forEach(row => row.reverse());
+    }
+
+    moveDown() {
+        this.y++;
+    }
+
+    moveLeft() {
+        this.x--;
+    }
+
+    moveRight() {
+        this.x++;
+    }
+
+    changeTo(p) {
         this.x = p.x;
         this.y = p.y;
-    }
-
-    setShape(shape) {
-        this.shape = shape;
+        this.color = p.color;
+        this.shape = JSON.parse(JSON.stringify(p.shape));
     }
 }
