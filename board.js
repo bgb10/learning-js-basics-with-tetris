@@ -16,9 +16,20 @@ class Board {
 
     dropPiece(board) {
         // 여기 있는 this가... window 객체임 ㅋㅋㅋ
+        // 이미 바닥에 붙은 경우
+        if(!board.isMovableToDown()) {
+            board.putCurrentPieceOnGrid();
+
+            board.currentPiece = new Piece();
+
+            return;
+        }
+        
         board.moveDown();
 
         if(board.isCurrentPieceFixed()) {
+            console.log("dsaff");
+
             board.putCurrentPieceOnGrid();
 
             board.currentPiece = new Piece();
@@ -33,7 +44,7 @@ class Board {
                 let y = this.currentPiece.y + dy;
                 
                 if(value != 0) {
-                    this.grid[x][y] = value;
+                    this.grid[y][x] = value;
                 }
             });
         });
@@ -42,9 +53,9 @@ class Board {
     }
 
     isCurrentPieceFixed() {
-        // 모든 방향으로 이동할 수 없다면 fixed 된 상태
-
-
+        if(!this.isRotatable() && !this.isMovableToDown() && !this.isMovableToLeft() && !this.isMovableToRight()) {
+            return true;
+        } 
 
         return false;
     }
@@ -81,6 +92,10 @@ class Board {
         } else {
             return false;
         }
+    }
+
+    hardDrop() {
+        // TODO: hardDrop 구현
     }
 
     moveDown() {
@@ -143,16 +158,15 @@ class Board {
                 let x = p.x + dx;
                 let y = p.y + dy;
                 return (
-                    this.isEmpty(value) ||
-                    (this.insideWalls(x) &&
-                        this.aboveFloor(y))
+                    value == 0 ||
+                    (
+                        this.insideWalls(x) &&
+                        this.aboveFloor(y) && 
+                        this.grid[y][x] == 0
+                    )
                 );
             });
         });
-    }
-
-    isEmpty(value) {
-        return value == 0;
     }
 
     insideWalls(x) {

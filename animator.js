@@ -22,17 +22,16 @@ class Animator {
     }
 
     animate() {
-        setInterval(this.render, 100, this);
+        setInterval(this.render, 50, this);
     }
 
     render(animator) {
-        animator.reset();
+        animator.ctx.clearRect(0, 0, animator.ctx.canvas.width, animator.ctx.canvas.height);
         
-        // TODO: grid 에 있는 블록 뿐만 아니라 currentPiece 도 출력해야 하는가? yes
         board.currentPiece.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 if(value > 0) {
-                    animator.ctx.fillStyle = board.currentPiece.color;
+                    animator.ctx.fillStyle = COLORS[value - 1];
 
                     animator.ctx.fillRect(board.currentPiece.x + x, board.currentPiece.y + y, 1, 1);
                 }
@@ -47,12 +46,9 @@ class Animator {
                 if(value > 0) {
                     animator.ctx.fillStyle = COLORS[value - 1];
 
-                    animator.ctx.fillRect(animator.x + x, animator.y + y, 1, 1);
+                    animator.ctx.fillRect(x, y, 1, 1);
                 }
             });
         });
-
-        // console.dir(animator.board.currentPiece)
-        // console.table(animator.board.grid);
     }
 }

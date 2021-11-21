@@ -9,8 +9,8 @@ class Piece {
     }
 
     randomizedSpawn() {
-        this.color = getRandomColors();
         this.shape = getRandomShapes();
+        this.color = getRandomColors();
 
         // Starting position
         this.x = 3;
