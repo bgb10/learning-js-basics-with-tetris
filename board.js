@@ -1,6 +1,8 @@
 class Board {
     currentPiece;
     grid;
+    
+    flag;
 
     start() {
         this.currentPiece = new Piece();
@@ -9,7 +11,7 @@ class Board {
     }
 
     startPieceDrops() {
-        setInterval(this.dropPiece, 1000, this);
+        this.flag = setInterval(this.dropPiece, 1000, this);
     }
 
     dropPiece(board) {
@@ -54,7 +56,7 @@ class Board {
     }
 
     stopPieceDrops() {
-        clearInterval(this.dropPiece);
+        clearInterval(this.flag);
     }
 
     getEmptyBoard() {
