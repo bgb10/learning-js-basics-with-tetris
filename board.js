@@ -34,6 +34,26 @@ class Board {
 
             board.currentPiece = new Piece();
         }
+
+        board.clearLine();
+    }
+
+    clearLine() {
+        // clear 된 라인 지우고 남아있는 라인만 만듦.
+        let clearedGrid = this.grid.filter((row) => {
+            return !row.every((value) => {
+                return value != 0;
+            });
+        });
+
+        // 라인을 배열 오른쪽 끝으로 밀기
+        let emptyGrid = this.getEmptyBoard();
+        let newGrid = emptyGrid.slice(0, -(clearedGrid.length));
+        newGrid = newGrid.concat(clearedGrid);
+
+        console.table(newGrid);
+
+        this.grid = newGrid;
     }
 
     putCurrentPieceOnGrid() {
@@ -95,9 +115,9 @@ class Board {
     }
 
     hardDrop() {
-        // TODO: hardDrop 구현
+        // TODO: HardDrop 에서 동시성 문제 발생
     }
-
+    
     moveDown() {
         if(this.isMovableToDown()) {
             this.currentPiece.moveDown();
