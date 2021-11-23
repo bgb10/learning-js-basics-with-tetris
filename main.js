@@ -1,6 +1,8 @@
 let board = new Board();
 let animator = new Animator(board);
 
+var score = 0;
+
 function play() {
     reset();
 
@@ -23,7 +25,8 @@ function pause() {
 }
 
 document.addEventListener('keydown', event => {
-    // TODO: 이벤트 버블링 고려해야하는지 확인
+    // 이벤트 버블링 막기
+    event.preventDefault();
     
     switch(event.keyCode) {
         case KEY.SPACE:

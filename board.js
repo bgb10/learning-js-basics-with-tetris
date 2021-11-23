@@ -13,7 +13,7 @@ class Board {
         this.flag = setInterval(this.dropPiece, 1000, this);
     }
 
-    dropPiece(board) {
+    dropPiece(board) {        
         // 여기 있는 this가... window 객체임 ㅋㅋㅋ
         // 이미 바닥에 붙은 경우
         if(!board.isMovableToDown()) {
@@ -51,10 +51,12 @@ class Board {
 
         // 라인을 배열 오른쪽 끝으로 밀기
         let emptyGrid = this.getEmptyBoard();
+        
+        score += (emptyGrid.length - clearedGrid.length);
+        console.log(score);
+        
         let newGrid = emptyGrid.slice(0, -(clearedGrid.length));
         newGrid = newGrid.concat(clearedGrid);
-
-        console.table(newGrid);
 
         this.grid = newGrid;
     }
@@ -118,7 +120,13 @@ class Board {
     }
 
     hardDrop() {
-        // TODO: HardDrop 에서 동시성 문제 발생
+        while(this.isMovableToDown()) {
+            this.currentPiece.moveDown();
+        }
+
+        this.putCurrentPieceOnGrid();
+
+        this.currentPiece = new Piece();
     }
     
     moveDown() {
