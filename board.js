@@ -22,6 +22,8 @@ class Board {
 
             board.currentPiece = new Piece();
 
+            board.clearLine();
+
             return;
         }
         
@@ -33,6 +35,8 @@ class Board {
             board.putCurrentPieceOnGrid();
 
             board.currentPiece = new Piece();
+
+            board.clearLine();
         }
 
         board.clearLine();
