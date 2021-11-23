@@ -1,5 +1,4 @@
 class Board {
-    currentPiece;
     grid;
     
     flag;
@@ -20,9 +19,9 @@ class Board {
         if(!board.isMovableToDown()) {
             board.putCurrentPieceOnGrid();
 
-            board.currentPiece = new Piece();
-
             board.clearLine();
+
+            board.currentPiece = new Piece();
 
             return;
         }
@@ -34,9 +33,9 @@ class Board {
 
             board.putCurrentPieceOnGrid();
 
-            board.currentPiece = new Piece();
-
             board.clearLine();
+
+            board.currentPiece = new Piece();
         }
 
         board.clearLine();
