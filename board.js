@@ -1,7 +1,7 @@
 class Board {
     grid;
-    
-    flag;
+
+    dropPieceIntervalFlag;
 
     start() {
         this.currentPiece = new Piece();
@@ -9,65 +9,96 @@ class Board {
         this.startPieceDrops();
     }
 
-    startPieceDrops() {
-        this.flag = setInterval(this.dropPiece, 1000, this);
+    reset() {
+        this.currentPiece = null;
+        this.grid = this.getEmptyBoard();
+        this.stopPieceDrops();
     }
 
-    dropPiece(board) {        
-        // 여기 있는 this가... window 객체임 ㅋㅋㅋ
-        // 이미 바닥에 붙은 경우
+    getEmptyBoard() {
+        return Array.from(
+            { length: ROWS }, () => Array(COLS).fill(0)
+        );
+    }
+
+    pause() {
+        this.stopPieceDrops();
+    } 
+
+    resume() {
+        this.startPieceDrops();
+    }
+
+    startPieceDrops() {
+        this.dropPieceIntervalFlag = setInterval(this.dropPiece, 1000, this);
+    }
+
+    stopPieceDrops() {
+        clearInterval(this.dropPieceIntervalFlag);
+    }
+
+    dropPiece(board) {
+        // 블록이 아래로 내려갈 수 없는 경우 바닥에 닿은 것이므로 블록을 그대로 보드에 고정한다.        
         if(!board.isMovableToDown()) {
             board.putCurrentPieceOnGrid();
-
+    
             board.clearLine();
-
+    
+            board.currentPiece = new Piece();
+    
+            return;
+        }
+        
+        // 블록을 아래로 내린다.
+        board.moveDown();
+    
+        // 블록을 아래로 내렸는데 블록이 고정된 경우 그대로 보드에 고정한다.
+        /* 여기서 블록이 고정(하, 좌, 우, 회전 모두 불가시)되지만 않으면 아래 if문을 통과하는데, 
+        아래로 내려갈 수는 없지만 옆으로 이동할 수 있는 경우, 1초의 term 을 둬서 그 동안 좌우 이동 또는 회전할 수 있기 위함이다. */
+        if(board.isCurrentPieceFixed()) {
+            board.putCurrentPieceOnGrid();
+    
+            board.clearLine();
+    
             board.currentPiece = new Piece();
 
             return;
         }
-        
-        board.moveDown();
-
-        if(board.isCurrentPieceFixed()) {
-            console.log("dsaff");
-
-            board.putCurrentPieceOnGrid();
-
-            board.clearLine();
-
-            board.currentPiece = new Piece();
-        }
-
+    
         board.clearLine();
     }
 
     clearLine() {
-        // clear 된 라인 지우고 남아있는 라인만 만듦.
+        // line clearing
         let clearedGrid = this.grid.filter((row) => {
             return !row.every((value) => {
                 return value != 0;
             });
         });
 
-        // 라인을 배열 오른쪽 끝으로 밀기
         let emptyGrid = this.getEmptyBoard();
-        
-        accountValues.lines += (emptyGrid.length - clearedGrid.length);
-        accountValues.score += (emptyGrid.length - clearedGrid.length) * 10;
-        let lines = document.getElementById("lines");
-        lines.innerText = accountValues.lines;
-        let score = document.getElementById("score");
-        score.innerText = accountValues.score;
-
-        
         let newGrid = emptyGrid.slice(0, -(clearedGrid.length));
         newGrid = newGrid.concat(clearedGrid);
 
         this.grid = newGrid;
+
+        // scoring
+        let clearedLineCount = emptyGrid.length - clearedGrid.length;
+        this.scoring(clearedLineCount);
+    }
+
+    scoring(clearedLineCount) {
+        accountValues.lines += clearedLineCount;
+        accountValues.score += clearedLineCount * 10;
+        
+        let lines = document.getElementById("lines");
+        lines.innerText = accountValues.lines;
+
+        let score = document.getElementById("score");
+        score.innerText = accountValues.score;
     }
 
     putCurrentPieceOnGrid() {
-        // index 숫자를 grid 에 모양대로 대입
         this.currentPiece.shape.forEach((row, dy) => {
             row.forEach((value, dx) => {
                 let x = this.currentPiece.x + dx;
@@ -88,30 +119,6 @@ class Board {
         } 
 
         return false;
-    }
-
-    pause() {
-        this.stopPieceDrops();
-    }
-
-    resume() {
-        this.startPieceDrops();
-    }
-
-    reset() {
-        this.currentPiece = null;
-        this.grid = this.getEmptyBoard();
-        this.stopPieceDrops();
-    }
-
-    stopPieceDrops() {
-        clearInterval(this.flag);
-    }
-
-    getEmptyBoard() {
-        return Array.from(
-            { length: ROWS }, () => Array(COLS).fill(0)
-        );
     }
 
     rotate() {

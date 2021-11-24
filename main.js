@@ -11,15 +11,12 @@ let accountValues = {
 function play() {
     reset();
 
+    document.addEventListener('keydown', inputBlockMovement);
+    document.addEventListener('keydown', inputSettings);
+
     board.start();
 
     animator.start();
-}
-
-function reset() {
-    board.reset();
-
-    animator.reset();
 }
 
 function pause() {
@@ -42,20 +39,13 @@ function resume() {
     animator.resume();
 }
 
-document.addEventListener('keydown', event => {
-    if(event.keyCode == KEY.P) {
-        if(isPaused) {
-            resume();
-        } else {
-            pause();
-        }
-    }
-});
+function reset() {
+    board.reset();
 
-document.addEventListener('keydown', inputBlockMovement);
+    animator.reset();
+}
 
 function inputBlockMovement(event) {
-    // 이벤트 버블링 막기
     event.preventDefault();
     
     switch(event.keyCode) {
@@ -74,5 +64,15 @@ function inputBlockMovement(event) {
         case KEY.RIGHT:
             board.moveRight();
             break;
+    }
+}
+
+function inputSettings(event) {
+    if(event.keyCode == KEY.P) {
+        if(isPaused) {
+            resume();
+        } else {
+            pause();
+        }
     }
 }

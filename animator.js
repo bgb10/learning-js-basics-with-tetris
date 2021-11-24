@@ -1,9 +1,10 @@
 class Animator {
     canvas;
     ctx;
+    
     board;
 
-    key;
+    renderIntervalKey;
 
     constructor(board) {
         this.board = board;
@@ -17,24 +18,24 @@ class Animator {
         this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
     }
 
-    pause() {
-        clearInterval(this.key);
+    start() {
+        this.renderIntervalKey = setInterval(this.render, 50, this);
     }
 
-    resume() {
-        this.key = setInterval(this.render, 50, this);
-    }
-    
     reset() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        clearInterval(this.key);
+        clearInterval(this.renderIntervalKey);
     }
 
-    start() {
-        this.key = setInterval(this.render, 50, this);
+    pause() {
+        clearInterval(this.renderIntervalKey);
     }
 
+    resume() {
+        this.renderIntervalKey = setInterval(this.render, 50, this);
+    }
+    
     render(animator) {
         animator.ctx.clearRect(0, 0, animator.ctx.canvas.width, animator.ctx.canvas.height);
         
