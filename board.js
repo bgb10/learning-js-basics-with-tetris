@@ -52,8 +52,13 @@ class Board {
         // 라인을 배열 오른쪽 끝으로 밀기
         let emptyGrid = this.getEmptyBoard();
         
-        score += (emptyGrid.length - clearedGrid.length);
-        console.log(score);
+        accountValues.lines += (emptyGrid.length - clearedGrid.length);
+        accountValues.score += (emptyGrid.length - clearedGrid.length) * 10;
+        let lines = document.getElementById("lines");
+        lines.innerText = accountValues.lines;
+        let score = document.getElementById("score");
+        score.innerText = accountValues.score;
+
         
         let newGrid = emptyGrid.slice(0, -(clearedGrid.length));
         newGrid = newGrid.concat(clearedGrid);
@@ -83,6 +88,14 @@ class Board {
         } 
 
         return false;
+    }
+
+    pause() {
+        this.stopPieceDrops();
+    }
+
+    resume() {
+        this.startPieceDrops();
     }
 
     reset() {
