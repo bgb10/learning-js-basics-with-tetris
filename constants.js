@@ -1,8 +1,8 @@
-const COLS = 10;
-const ROWS = 20;
-const BLOCK_SIZE = 30;
+export const COLS = 10;
+export const ROWS = 20;
+export const BLOCK_SIZE = 30;
 
-const KEY = {
+export const KEY = {
     LEFT: 37,
     RIGHT: 39,
     DOWN: 40,
@@ -12,7 +12,7 @@ const KEY = {
 }
 Object.freeze(KEY);
 
-const COLORS = [
+export const COLORS = [
     'cyan',
     'blue',
     'orange',
@@ -22,11 +22,11 @@ const COLORS = [
     'red'
 ];
 
-function getRandomColors() {
+export function getRandomColors() {
     return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
 
-const SHAPES = [
+export const SHAPES = [
     [
         [0, 0, 0, 0],
         [1, 1, 1, 1], 
@@ -64,6 +64,6 @@ const SHAPES = [
     ]
 ];
 
-function getRandomShapes() {
+export function getRandomShapes() {
     return SHAPES[Math.floor(Math.random() * SHAPES.length)];
 }

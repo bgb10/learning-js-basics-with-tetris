@@ -1,4 +1,6 @@
-class Piece {
+import { getRandomColors, getRandomShapes } from "./constants.js";
+
+export default class Piece {
     x;
     y;
     color;

@@ -1,5 +1,6 @@
-class Animator {
-    canvas;
+import {ROWS, COLS, BLOCK_SIZE, COLORS} from './constants.js';
+
+export default class Animator {
     ctx;
     
     board;
@@ -9,8 +10,8 @@ class Animator {
     constructor(board) {
         this.board = board;
         
-        this.canvas = document.getElementById('board');
-        this.ctx = this.canvas.getContext('2d');
+        let canvas = document.getElementById('board');
+        this.ctx = canvas.getContext('2d');
 
         this.ctx.canvas.width = COLS * BLOCK_SIZE;
         this.ctx.canvas.height = ROWS * BLOCK_SIZE;
@@ -39,12 +40,12 @@ class Animator {
     render(animator) {
         animator.ctx.clearRect(0, 0, animator.ctx.canvas.width, animator.ctx.canvas.height);
         
-        board.currentPiece.shape.forEach((row, y) => {
+        animator.board.currentPiece.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 if(value > 0) {
                     animator.ctx.fillStyle = COLORS[value - 1];
 
-                    animator.ctx.fillRect(board.currentPiece.x + x, board.currentPiece.y + y, 1, 1);
+                    animator.ctx.fillRect(animator.board.currentPiece.x + x, animator.board.currentPiece.y + y, 1, 1);
                 }
             })
         })

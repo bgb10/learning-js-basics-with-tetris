@@ -1,5 +1,11 @@
-class Board {
+import accountValues from './account.js';
+import Piece from './piece.js';
+import {ROWS, COLS} from './constants.js';
+
+export default class Board {
     grid;
+
+    currentPiece;
 
     dropPieceIntervalFlag;
 

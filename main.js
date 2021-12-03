@@ -1,12 +1,11 @@
+import Board from './board.js';
+import Animator from './animator.js';
+import {KEY} from './constants.js';
+
 let board = new Board();
 let animator = new Animator(board);
 
 let isPaused = false;
-
-let accountValues = {
-    score: 0,
-    lines: 0
-}
 
 function play() {
     reset();
@@ -76,3 +75,5 @@ function inputSettings(event) {
         }
     }
 }
+
+window.play = play;
