@@ -138,7 +138,7 @@ export default class Board {
 
         rotatedPiece.rotate();
 
-        if(this.isValid(rotatedPiece)) {
+        if(this.isPuttablePiece(rotatedPiece)) {
             return true;
         } else {
             return false;
@@ -166,7 +166,7 @@ export default class Board {
 
         moveDownPiece.moveDown();
 
-        if(this.isValid(moveDownPiece)) {
+        if(this.isPuttablePiece(moveDownPiece)) {
             return true;
         } else {
             return false;
@@ -184,7 +184,7 @@ export default class Board {
 
         moveLeftPiece.moveLeft();
         
-        if(this.isValid(moveLeftPiece)) {
+        if(this.isPuttablePiece(moveLeftPiece)) {
             return true;
         } else {
             return false;
@@ -202,14 +202,14 @@ export default class Board {
 
         moveRightPiece.moveRight();
 
-        if(this.isValid(moveRightPiece)) {
+        if(this.isPuttablePiece(moveRightPiece)) {
             return true;
         } else {
             return false;
         }
     }
 
-    isValid(p) {
+    isPuttablePiece(p) {
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;
