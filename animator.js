@@ -5,7 +5,9 @@ export default class Animator {
     
     board;
 
-    renderIntervalKey;
+    /* setInterval 함수에서 반환된 key 값을 가지고 있는 변수로, 
+    애니메이션이 중지될 때 clearInterval 에 인자로 넘기기 위해 사용한다. */
+    renderIntervalKey; 
 
     constructor(board) {
         this.board = board;
@@ -20,7 +22,7 @@ export default class Animator {
     }
 
     start() {
-        this.renderIntervalKey = setInterval(this.render, 50, this);
+        this.renderIntervalKey = setInterval(this.render.bind(this), 50);
     }
 
     reset() {
@@ -34,31 +36,31 @@ export default class Animator {
     }
 
     resume() {
-        this.renderIntervalKey = setInterval(this.render, 50, this);
+        this.renderIntervalKey = setInterval(this.render.bind(this), 50);
     }
     
-    render(animator) {
-        animator.ctx.clearRect(0, 0, animator.ctx.canvas.width, animator.ctx.canvas.height);
+    render() {
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         
-        animator.board.currentPiece.shape.forEach((row, y) => {
+        this.board.currentPiece.shape.forEach((row, y) => {
             row.forEach((value, x) => {
                 if(value > 0) {
-                    animator.ctx.fillStyle = COLORS[value - 1];
+                    this.ctx.fillStyle = COLORS[value - 1];
 
-                    animator.ctx.fillRect(animator.board.currentPiece.x + x, animator.board.currentPiece.y + y, 1, 1);
+                    this.ctx.fillRect(this.board.currentPiece.x + x, this.board.currentPiece.y + y, 1, 1);
                 }
             })
         })
 
-        animator.board.grid.forEach((row, y) => {
+        this.board.grid.forEach((row, y) => {
             row.forEach((value, x) => {
                 // this.x, this.y 는 shape의 상단 왼쪽 좌표이다.
                 // shape 안에 있는 블록 좌표에 x, y를 더한다.
                 // 보드에서 블록의 좌표는 this.x + x, this.y + y 가 된다.
                 if(value > 0) {
-                    animator.ctx.fillStyle = COLORS[value - 1];
+                    this.ctx.fillStyle = COLORS[value - 1];
 
-                    animator.ctx.fillRect(x, y, 1, 1);
+                    this.ctx.fillRect(x, y, 1, 1);
                 }
             });
         });
