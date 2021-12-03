@@ -16,8 +16,8 @@ export default class Board {
     }
 
     reset() {
-        this.currentPiece = null;
         this.grid = this.getEmptyBoard();
+        this.currentPiece = null;
         this.stopPieceDrops();
     }
 
@@ -36,42 +36,42 @@ export default class Board {
     }
 
     startPieceDrops() {
-        this.dropPieceIntervalFlag = setInterval(this.dropPiece, 1000, this);
+        this.dropPieceIntervalFlag = setInterval(this.dropPiece.bind(this), 1000);
     }
 
     stopPieceDrops() {
         clearInterval(this.dropPieceIntervalFlag);
     }
 
-    dropPiece(board) {
+    dropPiece() {
         // 블록이 아래로 내려갈 수 없는 경우 바닥에 닿은 것이므로 블록을 그대로 보드에 고정한다.        
-        if(!board.isMovableToDown()) {
-            board.putCurrentPieceOnGrid();
+        if(!this.isMovableToDown()) {
+            this.putCurrentPieceOnGrid();
     
-            board.clearLine();
+            this.clearLine();
     
-            board.currentPiece = new Piece();
+            this.currentPiece = new Piece();
     
             return;
         }
         
         // 블록을 아래로 내린다.
-        board.moveDown();
+        this.moveDown();
     
         // 블록을 아래로 내렸는데 블록이 고정된 경우 그대로 보드에 고정한다.
         /* 여기서 블록이 고정(하, 좌, 우, 회전 모두 불가시)되지만 않으면 아래 if문을 통과하는데, 
         아래로 내려갈 수는 없지만 옆으로 이동할 수 있는 경우, 1초의 term 을 둬서 그 동안 좌우 이동 또는 회전할 수 있기 위함이다. */
-        if(board.isCurrentPieceFixed()) {
-            board.putCurrentPieceOnGrid();
+        if(this.isCurrentPieceFixed()) {
+            this.putCurrentPieceOnGrid();
     
-            board.clearLine();
+            this.clearLine();
     
-            board.currentPiece = new Piece();
+            this.currentPiece = new Piece();
 
             return;
         }
     
-        board.clearLine();
+        this.clearLine();
     }
 
     clearLine() {
