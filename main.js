@@ -13,7 +13,23 @@ let blockMoveSound = new Audio('./assets/block-move.wav');
 let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
 let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
 
+let soundToggle = document.getElementById('sound-toggle');
+let isBackgroundMusicPlaying = false;
+soundToggle.addEventListener('click', playBackgroundMusic);
+
+function playBackgroundMusic() {
+    if(isBackgroundMusicPlaying) {
+        backgroundMusic.pause();
+        isBackgroundMusicPlaying = false;
+    } else {
+        backgroundMusic.play();
+        isBackgroundMusicPlaying = true;
+    }
+}
+
 function play() {
+    playBackgroundMusic();
+
     reset();
 
     document.addEventListener('keydown', inputBlockMovement);
