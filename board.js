@@ -1,6 +1,7 @@
 import accountValues from './account.js';
 import Piece from './piece.js';
 import {ROWS, COLS} from './constants.js';
+import { playClearLineSound } from './sounds.js';
 
 export default class Board {
     grid;
@@ -95,9 +96,7 @@ export default class Board {
 
     scoring(clearedLineCount) {
         if(clearedLineCount != 0) {
-            let clearLineSound = new Audio('./assets/clear-line.wav');
-            clearLineSound.currentTime = 0;
-            clearLineSound.play();
+            playClearLineSound();
         }
 
         accountValues.lines += clearedLineCount;

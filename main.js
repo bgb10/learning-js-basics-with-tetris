@@ -1,31 +1,15 @@
 import Board from './board.js';
 import Animator from './animator.js';
 import {KEY} from './constants.js';
+import {playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound} from './sounds.js';
 
 let board = new Board();
 let animator = new Animator(board);
 
 let isPaused = false;
 
-let backgroundMusic = new Audio('./assets/background-music.m4a');
-let hardDropSound = new Audio('./assets/hard-drop.wav');
-let blockMoveSound = new Audio('./assets/block-move.wav');
-let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
-let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
-
 let soundToggle = document.getElementById('sound-toggle');
-let isBackgroundMusicPlaying = false;
 soundToggle.addEventListener('click', playBackgroundMusic);
-
-function playBackgroundMusic() {
-    if(isBackgroundMusicPlaying) {
-        backgroundMusic.pause();
-        isBackgroundMusicPlaying = false;
-    } else {
-        backgroundMusic.play();
-        isBackgroundMusicPlaying = true;
-    }
-}
 
 function play() {
     playBackgroundMusic();
@@ -39,8 +23,7 @@ function play() {
 
     animator.start();
 
-    pressStartButtonSound.currentTime = 0;
-    pressStartButtonSound.play();
+    playPressStartButtonSound();
 }
 
 function pause() {
@@ -52,8 +35,7 @@ function pause() {
 
     animator.pause();
 
-    pauseAndResumeSound.currentTime = 0;
-    pauseAndResumeSound.play();
+    playPauseAndResumeSound();
 }
 
 function resume() {
@@ -65,8 +47,7 @@ function resume() {
 
     animator.resume();
 
-    pauseAndResumeSound.currentTime = 0;
-    pauseAndResumeSound.play();
+    playPauseAndResumeSound();
 }
 
 function reset() {
@@ -98,17 +79,13 @@ function inputBlockMovement(event) {
 
     switch(event.keyCode) {
         case KEY.SPACE:
-            hardDropSound.pause();
-            hardDropSound.currentTime = 0;
-            hardDropSound.play();
+            playHardDropSound();
             break;
         case KEY.UP:
         case KEY.DOWN:
         case KEY.LEFT:
         case KEY.RIGHT:
-            blockMoveSound.pause();
-            blockMoveSound.currentTime = 0;
-            blockMoveSound.play();
+            playBlockMoveSound();
             break;
     }
 }
