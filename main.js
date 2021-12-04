@@ -7,6 +7,12 @@ let animator = new Animator(board);
 
 let isPaused = false;
 
+let backgroundMusic = new Audio('./assets/background-music.m4a');
+let hardDropSound = new Audio('./assets/hard-drop.wav');
+let blockMoveSound = new Audio('./assets/block-move.wav');
+let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
+let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
+
 function play() {
     reset();
 
@@ -16,6 +22,9 @@ function play() {
     board.start();
 
     animator.start();
+
+    pressStartButtonSound.currentTime = 0;
+    pressStartButtonSound.play();
 }
 
 function pause() {
@@ -26,6 +35,9 @@ function pause() {
     board.pause();
 
     animator.pause();
+
+    pauseAndResumeSound.currentTime = 0;
+    pauseAndResumeSound.play();
 }
 
 function resume() {
@@ -36,6 +48,9 @@ function resume() {
     board.resume();
 
     animator.resume();
+
+    pauseAndResumeSound.currentTime = 0;
+    pauseAndResumeSound.play();
 }
 
 function reset() {
@@ -62,6 +77,22 @@ function inputBlockMovement(event) {
             break;
         case KEY.RIGHT:
             board.moveRight();
+            break;
+    }
+
+    switch(event.keyCode) {
+        case KEY.SPACE:
+            hardDropSound.pause();
+            hardDropSound.currentTime = 0;
+            hardDropSound.play();
+            break;
+        case KEY.UP:
+        case KEY.DOWN:
+        case KEY.LEFT:
+        case KEY.RIGHT:
+            blockMoveSound.pause();
+            blockMoveSound.currentTime = 0;
+            blockMoveSound.play();
             break;
     }
 }

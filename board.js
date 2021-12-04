@@ -94,6 +94,12 @@ export default class Board {
     }
 
     scoring(clearedLineCount) {
+        if(clearedLineCount != 0) {
+            let clearLineSound = new Audio('./assets/clear-line.wav');
+            clearLineSound.currentTime = 0;
+            clearLineSound.play();
+        }
+
         accountValues.lines += clearedLineCount;
         accountValues.score += clearedLineCount * 10;
         
