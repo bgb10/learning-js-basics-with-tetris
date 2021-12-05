@@ -24,15 +24,17 @@ export default class Animator {
     render() {
         this.reset();
         
-        this.board.currentPiece.shape.forEach((row, y) => {
-            row.forEach((value, x) => {
-                if(value > 0) {
-                    this.ctx.fillStyle = COLORS[value - 1];
-
-                    this.ctx.fillRect(this.board.currentPiece.x + x, this.board.currentPiece.y + y, 1, 1);
-                }
+        if(this.board.currentPiece != null) {
+            this.board.currentPiece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if(value > 0) {
+                        this.ctx.fillStyle = COLORS[value - 1];
+    
+                        this.ctx.fillRect(this.board.currentPiece.x + x, this.board.currentPiece.y + y, 1, 1);
+                    }
+                })
             })
-        })
+        }
 
         this.board.grid.forEach((row, y) => {
             row.forEach((value, x) => {
