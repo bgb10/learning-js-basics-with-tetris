@@ -21,7 +21,6 @@ export default class Board {
 
     isCurrentPieceNotPuttable() {
         if(!this.isPuttablePiece(this.currentPiece)) {
-            this.gameOver();
             return true;
         }
 
@@ -29,12 +28,6 @@ export default class Board {
     }
 
     dropPiece() {
-        if(this.currentPiece == null) {
-            this.currentPiece = new Piece();
-        }
-
-        this.isCurrentPieceNotPuttable();
-
         // 블록이 아래로 내려갈 수 없는 경우 바닥에 닿은 것이므로 블록을 그대로 보드에 고정한다.        
         if(!this.isMovableToDown()) {
             this.putCurrentPieceOnGrid();
@@ -73,11 +66,6 @@ export default class Board {
         }
 
         this.currentPiece = nextPiece;
-    }
-
-    gameOver() {
-        this.reset();
-        playGameOverSound();
     }
 
     clearLine() {
