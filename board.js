@@ -1,5 +1,6 @@
 import accountValues from './account.js';
 import Block from './block.js';
+import { generateBlock } from './blockGenerator.js';
 import {ROWS, COLS} from './constants.js';
 import { playClearLineSound, playGameOverSound } from './sounds.js';
 
@@ -59,7 +60,7 @@ export default class Board {
     }
 
     putNewBlock() {
-        let nextBlock = new Block();
+        let nextBlock = generateBlock();
 
         if(!this.isPuttableBlock(nextBlock)) {
             this.gameOver();
@@ -150,7 +151,7 @@ export default class Board {
 
         this.putCurrentBlockOnGrid();
 
-        this.currentBlock = new Block();
+        this.currentBlock = generateBlock();
     }
     
     moveDown() {

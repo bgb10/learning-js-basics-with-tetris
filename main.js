@@ -1,6 +1,7 @@
 import Board from './board.js';
 import Animator from './animator.js';
 import Block from './block.js';
+import {generateBlock} from './blockGenerator.js';
 import {KEY} from './constants.js';
 import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
@@ -33,7 +34,7 @@ function play() {
 function dropBlockToBoard() {
     //TODO: BlockGenerator 로 바꿀 예정
     if(this.currentBlock == null) {
-        this.currentBlock = new Block();
+        this.currentBlock = generateBlock();
     }
 
     if(isGameOver()) {
