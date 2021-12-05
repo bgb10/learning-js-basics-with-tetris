@@ -20,6 +20,14 @@ export default class Animator {
     reset() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
+
+    showGameOver() {
+        this.ctx.fillStyle = 'black';
+        this.ctx.fillRect(1, 3, 8, 1.2);
+        this.ctx.font = '1px Arial';
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillText('GAME OVER', 1.8, 4);
+    }
     
     render() {
         this.reset();

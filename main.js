@@ -50,6 +50,8 @@ function isGameOver() {
 export function gameOver() {
     reset();
 
+    animator.showGameOver();
+
     playGameOverSound();
 }
 
