@@ -6,16 +6,38 @@ let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
 let clearLineSound = new Audio('./assets/clear-line.wav');
 let gameOverSound = new Audio('./assets/game-over.wav');
 
-export function playBackgroundMusic() {
-    let isPlaying = false;
-    
-    if(isPlaying) {
-        backgroundMusic.pause();
-        isPlaying = false;
+let soundImgElement = document.getElementById("sound-img");
+
+export function mute() {
+    this.classList.toggle('muted');
+
+    if(this.classList.contains('muted')) {
+        backgroundMusic.muted = false;
+        hardDropSound.muted = false;
+        blockMoveSound.muted = false;
+        pauseAndResumeSound.muted = false;
+        pressStartButtonSound.muted = false;
+        clearLineSound.muted = false;
+        gameOverSound.muted = false;
+
+        soundImgElement.src = "https://img.icons8.com/material-rounded/24/000000/room-sound.png";
     } else {
-        backgroundMusic.play();
-        isPlaying = true;
+        backgroundMusic.muted = true;
+        hardDropSound.muted = true;
+        blockMoveSound.muted = true;
+        pauseAndResumeSound.muted = true;
+        pressStartButtonSound.muted = true;
+        clearLineSound.muted = true;
+        gameOverSound.muted = true;
+
+        soundImgElement.src = "https://img.icons8.com/material-rounded/24/000000/mute.png";
     }
+}
+
+export function playBackgroundMusic() {
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play();
 }
 
 export function playHardDropSound() {

@@ -1,7 +1,7 @@
 import Board from './board.js';
 import Animator from './animator.js';
 import {KEY} from './constants.js';
-import {playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound} from './sounds.js';
+import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
 
 let board = new Board();
@@ -10,7 +10,7 @@ let animator = new Animator(board);
 let isPaused = false;
 
 let soundToggle = document.getElementById('sound-toggle');
-soundToggle.addEventListener('click', playBackgroundMusic);
+soundToggle.addEventListener('click', mute);
 
 let dropIntervalKey = null;
 let animateIntervalKey = null;
