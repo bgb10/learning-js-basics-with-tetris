@@ -22,10 +22,6 @@ export const COLORS = [
     'red'
 ];
 
-export function getRandomColors() {
-    return COLORS[Math.floor(Math.random() * COLORS.length)];
-}
-
 export function getRandomShapes() {
     return SHAPES[Math.floor(Math.random() * SHAPES.length)];
 }

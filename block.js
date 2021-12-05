@@ -1,9 +1,8 @@
-import { getRandomColors, getRandomShapes } from "./constants.js";
+import { getRandomShapes } from "./constants.js";
 
 export default class Block {
     x;
     y;
-    color;
     shape;
 
     constructor() {
@@ -12,7 +11,6 @@ export default class Block {
 
     randomizedSpawn() {
         this.shape = getRandomShapes();
-        this.color = getRandomColors();
 
         // Starting position
         this.x = 3;
