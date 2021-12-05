@@ -1,8 +1,7 @@
 import Board from './board.js';
 import Animator from './animator.js';
-import Block from './block.js';
-import {generateBlock} from './blockGenerator.js';
 import {KEY} from './constants.js';
+import { resetScore, resetLines } from './account.js';
 import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
 
@@ -24,7 +23,7 @@ function play() {
     document.addEventListener('keydown', inputSettings);
 
     //TODO: 게임오버를 관장하는 함수를 아래에 넣어서 drop 하기 전이나 block 을 컨트롤 하기 전에 체크할 것
-    dropBlockIntervalKey = setInterval(dropBlockToBoard.bind(board), 1000);
+    dropBlockIntervalKey = setInterval(dropBlockToBoard, 1000);
     animateIntervalKey = setInterval(animator.render.bind(animator), ANIMATION_FRAME);
 
     playBackgroundMusic();
@@ -32,20 +31,12 @@ function play() {
 }
 
 function dropBlockToBoard() {
-    //TODO: BlockGenerator 로 바꿀 예정
-    if(this.currentBlock == null) {
-        this.currentBlock = generateBlock();
-    }
-
     if(isGameOver()) {
         gameOver();
-
         return;
     }
     
-    //TODO: BlockDropper 로 바꿀 예정
-    //이제 board는 Block를 drop할 필요가 없다. 완전 별개로 작동.
-    this.dropBlock();
+    board.dropBlock();
 }
 
 function isGameOver() {
@@ -56,7 +47,7 @@ function isGameOver() {
     }
 }
 
-function gameOver() {
+export function gameOver() {
     reset();
 
     playGameOverSound();
@@ -90,6 +81,9 @@ function reset() {
     document.removeEventListener('keydown', inputBlockMovement);
     document.removeEventListener('keydown', inputSettings);
 
+    resetLines();
+    resetScore();
+    
     clearInterval(dropBlockIntervalKey);
     clearInterval(animateIntervalKey);
 
@@ -102,7 +96,6 @@ function inputBlockMovement(event) {
 
     if(isGameOver()) {
         gameOver();
-
         return;
     }
     

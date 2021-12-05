@@ -1,8 +1,8 @@
-import accountValues from './account.js';
-import Block from './block.js';
+import { addLines, addScore } from './account.js';
 import { generateBlock } from './blockGenerator.js';
 import {ROWS, COLS} from './constants.js';
 import { playClearLineSound, playGameOverSound } from './sounds.js';
+import { gameOver } from './main.js';
 
 export default class Board {
     grid;
@@ -11,7 +11,7 @@ export default class Board {
 
     reset() {
         this.grid = this.getEmptyBoard();
-        this.currentBlock = null;
+        this.currentBlock = generateBlock();
     }
 
     getEmptyBoard() {
@@ -56,17 +56,19 @@ export default class Board {
             return;
         }
     
+        // 라인을 지운다.
         this.clearLine();
     }
 
     putNewBlock() {
         let nextBlock = generateBlock();
 
-        if(!this.isPuttableBlock(nextBlock)) {
-            this.gameOver();
+        if(this.isPuttableBlock(nextBlock)) {
+            this.currentBlock = nextBlock;
+        } else {
+            gameOver();
+            return;
         }
-
-        this.currentBlock = nextBlock;
     }
 
     clearLine() {
@@ -93,14 +95,8 @@ export default class Board {
             playClearLineSound();
         }
 
-        accountValues.lines += clearedLineCount;
-        accountValues.score += clearedLineCount * 10;
-        
-        let lines = document.getElementById("lines");
-        lines.innerText = accountValues.lines;
-
-        let score = document.getElementById("score");
-        score.innerText = accountValues.score;
+        addLines(clearedLineCount);
+        addScore(clearedLineCount * 10);
     }
 
     putCurrentBlockOnGrid() {
