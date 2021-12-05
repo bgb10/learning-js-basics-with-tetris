@@ -1,25 +1,16 @@
 import accountValues from './account.js';
 import Piece from './piece.js';
 import {ROWS, COLS} from './constants.js';
-import { playClearLineSound } from './sounds.js';
+import { playClearLineSound, playGameOverSound } from './sounds.js';
 
 export default class Board {
     grid;
 
     currentPiece;
 
-    dropPieceIntervalFlag;
-
-    start() {
-        this.currentPiece = new Piece();
-
-        this.startPieceDrops();
-    }
-
     reset() {
         this.grid = this.getEmptyBoard();
         this.currentPiece = null;
-        this.stopPieceDrops();
     }
 
     getEmptyBoard() {
@@ -28,30 +19,29 @@ export default class Board {
         );
     }
 
-    pause() {
-        this.stopPieceDrops();
-    } 
+    isCurrentPieceNotPuttable() {
+        if(!this.isPuttablePiece(this.currentPiece)) {
+            this.gameOver();
+            return true;
+        }
 
-    resume() {
-        this.startPieceDrops();
-    }
-
-    startPieceDrops() {
-        this.dropPieceIntervalFlag = setInterval(this.dropPiece.bind(this), 1000);
-    }
-
-    stopPieceDrops() {
-        clearInterval(this.dropPieceIntervalFlag);
+        return false;
     }
 
     dropPiece() {
+        if(this.currentPiece == null) {
+            this.currentPiece = new Piece();
+        }
+
+        this.isCurrentPieceNotPuttable();
+
         // 블록이 아래로 내려갈 수 없는 경우 바닥에 닿은 것이므로 블록을 그대로 보드에 고정한다.        
         if(!this.isMovableToDown()) {
             this.putCurrentPieceOnGrid();
     
             this.clearLine();
     
-            this.currentPiece = new Piece();
+            this.putNewPiece();
     
             return;
         }
@@ -67,12 +57,27 @@ export default class Board {
     
             this.clearLine();
     
-            this.currentPiece = new Piece();
+            this.putNewPiece();
 
             return;
         }
     
         this.clearLine();
+    }
+
+    putNewPiece() {
+        let nextPiece = new Piece();
+
+        if(!this.isPuttablePiece(nextPiece)) {
+            this.gameOver();
+        }
+
+        this.currentPiece = nextPiece;
+    }
+
+    gameOver() {
+        this.reset();
+        playGameOverSound();
     }
 
     clearLine() {

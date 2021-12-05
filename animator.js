@@ -5,10 +5,6 @@ export default class Animator {
     
     board;
 
-    /* setInterval 함수에서 반환된 key 값을 가지고 있는 변수로, 
-    애니메이션이 중지될 때 clearInterval 에 인자로 넘기기 위해 사용한다. */
-    renderIntervalKey; 
-
     constructor(board) {
         this.board = board;
         
@@ -21,26 +17,12 @@ export default class Animator {
         this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
     }
 
-    start() {
-        this.renderIntervalKey = setInterval(this.render.bind(this), 50);
-    }
-
     reset() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-
-        clearInterval(this.renderIntervalKey);
-    }
-
-    pause() {
-        clearInterval(this.renderIntervalKey);
-    }
-
-    resume() {
-        this.renderIntervalKey = setInterval(this.render.bind(this), 50);
     }
     
     render() {
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.reset();
         
         this.board.currentPiece.shape.forEach((row, y) => {
             row.forEach((value, x) => {

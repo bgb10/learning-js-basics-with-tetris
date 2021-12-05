@@ -11,18 +11,20 @@ let isPaused = false;
 let soundToggle = document.getElementById('sound-toggle');
 soundToggle.addEventListener('click', playBackgroundMusic);
 
-function play() {
-    playBackgroundMusic();
+let dropIntervalKey = null;
+let animateIntervalKey = null;
 
+function play() {
     reset();
 
     document.addEventListener('keydown', inputBlockMovement);
     document.addEventListener('keydown', inputSettings);
 
-    board.start();
+    //TODO: 게임오버를 관장하는 함수를 아래에 넣어서 drop 하기 전이나 block 을 컨트롤 하기 전에 체크할 것
+    dropIntervalKey = setInterval(board.dropPiece.bind(board), 1000);
+    animateIntervalKey = setInterval(animator.render.bind(animator), 50);
 
-    animator.start();
-
+    playBackgroundMusic();
     playPressStartButtonSound();
 }
 
@@ -31,9 +33,8 @@ function pause() {
 
     document.removeEventListener('keydown', inputBlockMovement);
 
-    board.pause();
-
-    animator.pause();
+    clearInterval(dropIntervalKey);
+    clearInterval(animateIntervalKey);
 
     playPauseAndResumeSound();
 }
@@ -43,16 +44,22 @@ function resume() {
 
     document.addEventListener('keydown', inputBlockMovement);
 
-    board.resume();
-
-    animator.resume();
+    dropIntervalKey = setInterval(board.dropPiece.bind(board), 1000);
+    animateIntervalKey = setInterval(animator.render.bind(animator), 50);
 
     playPauseAndResumeSound();
 }
 
 function reset() {
-    board.reset();
+    isPaused = false;
 
+    document.removeEventListener('keydown', inputBlockMovement);
+    document.removeEventListener('keydown', inputSettings);
+
+    clearInterval(dropIntervalKey);
+    clearInterval(animateIntervalKey);
+
+    board.reset();
     animator.reset();
 }
 

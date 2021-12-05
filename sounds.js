@@ -4,6 +4,7 @@ let blockMoveSound = new Audio('./assets/block-move.wav');
 let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
 let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
 let clearLineSound = new Audio('./assets/clear-line.wav');
+let gameOverSound = new Audio('./assets/game-over.wav');
 
 export function playBackgroundMusic() {
     let isPlaying = false;
@@ -42,4 +43,9 @@ export function playPressStartButtonSound() {
 export function playClearLineSound() {
     clearLineSound.currentTime = 0;
     clearLineSound.play();
+}
+
+export function playGameOverSound() {
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
 }
