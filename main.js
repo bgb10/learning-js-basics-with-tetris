@@ -2,6 +2,7 @@ import Board from './board.js';
 import Animator from './animator.js';
 import {KEY} from './constants.js';
 import {playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound} from './sounds.js';
+import { ANIMATION_FRAME } from './settings.js';
 
 let board = new Board();
 let animator = new Animator(board);
@@ -22,7 +23,7 @@ function play() {
 
     //TODO: 게임오버를 관장하는 함수를 아래에 넣어서 drop 하기 전이나 block 을 컨트롤 하기 전에 체크할 것
     dropIntervalKey = setInterval(board.dropPiece.bind(board), 1000);
-    animateIntervalKey = setInterval(animator.render.bind(animator), 50);
+    animateIntervalKey = setInterval(animator.render.bind(animator), ANIMATION_FRAME);
 
     playBackgroundMusic();
     playPressStartButtonSound();
@@ -45,7 +46,7 @@ function resume() {
     document.addEventListener('keydown', inputBlockMovement);
 
     dropIntervalKey = setInterval(board.dropPiece.bind(board), 1000);
-    animateIntervalKey = setInterval(animator.render.bind(animator), 50);
+    animateIntervalKey = setInterval(animator.render.bind(animator), ANIMATION_FRAME);
 
     playPauseAndResumeSound();
 }

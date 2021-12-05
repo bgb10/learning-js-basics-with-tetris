@@ -26,6 +26,10 @@ export function getRandomColors() {
     return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
 
+export function getRandomShapes() {
+    return SHAPES[Math.floor(Math.random() * SHAPES.length)];
+}
+
 export const SHAPES = [
     [
         [0, 0, 0, 0],
@@ -63,7 +67,3 @@ export const SHAPES = [
         [0, 0, 0]
     ]
 ];
-
-export function getRandomShapes() {
-    return SHAPES[Math.floor(Math.random() * SHAPES.length)];
-}
