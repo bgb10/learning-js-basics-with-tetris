@@ -1,16 +1,16 @@
 import accountValues from './account.js';
-import Piece from './piece.js';
+import Block from './block.js';
 import {ROWS, COLS} from './constants.js';
 import { playClearLineSound, playGameOverSound } from './sounds.js';
 
 export default class Board {
     grid;
 
-    currentPiece;
+    currentBlock;
 
     reset() {
         this.grid = this.getEmptyBoard();
-        this.currentPiece = null;
+        this.currentBlock = null;
     }
 
     getEmptyBoard() {
@@ -19,22 +19,22 @@ export default class Board {
         );
     }
 
-    isCurrentPieceNotPuttable() {
-        if(!this.isPuttablePiece(this.currentPiece)) {
+    isCurrentBlockNotPuttable() {
+        if(!this.isPuttableBlock(this.currentBlock)) {
             return true;
         }
 
         return false;
     }
 
-    dropPiece() {
+    dropBlock() {
         // 블록이 아래로 내려갈 수 없는 경우 바닥에 닿은 것이므로 블록을 그대로 보드에 고정한다.        
         if(!this.isMovableToDown()) {
-            this.putCurrentPieceOnGrid();
+            this.putCurrentBlockOnGrid();
     
             this.clearLine();
     
-            this.putNewPiece();
+            this.putNewBlock();
     
             return;
         }
@@ -45,12 +45,12 @@ export default class Board {
         // 블록을 아래로 내렸는데 블록이 고정된 경우 그대로 보드에 고정한다.
         /* 여기서 블록이 고정(하, 좌, 우, 회전 모두 불가시)되지만 않으면 아래 if문을 통과하는데, 
         아래로 내려갈 수는 없지만 옆으로 이동할 수 있는 경우, 1초의 term 을 둬서 그 동안 좌우 이동 또는 회전할 수 있기 위함이다. */
-        if(this.isCurrentPieceFixed()) {
-            this.putCurrentPieceOnGrid();
+        if(this.isCurrentBlockFixed()) {
+            this.putCurrentBlockOnGrid();
     
             this.clearLine();
     
-            this.putNewPiece();
+            this.putNewBlock();
 
             return;
         }
@@ -58,14 +58,14 @@ export default class Board {
         this.clearLine();
     }
 
-    putNewPiece() {
-        let nextPiece = new Piece();
+    putNewBlock() {
+        let nextBlock = new Block();
 
-        if(!this.isPuttablePiece(nextPiece)) {
+        if(!this.isPuttableBlock(nextBlock)) {
             this.gameOver();
         }
 
-        this.currentPiece = nextPiece;
+        this.currentBlock = nextBlock;
     }
 
     clearLine() {
@@ -102,11 +102,11 @@ export default class Board {
         score.innerText = accountValues.score;
     }
 
-    putCurrentPieceOnGrid() {
-        this.currentPiece.shape.forEach((row, dy) => {
+    putCurrentBlockOnGrid() {
+        this.currentBlock.shape.forEach((row, dy) => {
             row.forEach((value, dx) => {
-                let x = this.currentPiece.x + dx;
-                let y = this.currentPiece.y + dy;
+                let x = this.currentBlock.x + dx;
+                let y = this.currentBlock.y + dy;
                 
                 if(value != 0) {
                     this.grid[y][x] = value;
@@ -114,10 +114,10 @@ export default class Board {
             });
         });
 
-        this.currentPiece = null;
+        this.currentBlock = null;
     }
 
-    isCurrentPieceFixed() {
+    isCurrentBlockFixed() {
         if(!this.isRotatable() && !this.isMovableToDown() && !this.isMovableToLeft() && !this.isMovableToRight()) {
             return true;
         } 
@@ -127,16 +127,16 @@ export default class Board {
 
     rotate() {
         if(this.isRotatable()) {
-            this.currentPiece.rotate();
+            this.currentBlock.rotate();
         }
     }
 
     isRotatable() {
-        let rotatedPiece = this.currentPiece.getCopy();
+        let rotatedBlock = this.currentBlock.getCopy();
 
-        rotatedPiece.rotate();
+        rotatedBlock.rotate();
 
-        if(this.isPuttablePiece(rotatedPiece)) {
+        if(this.isPuttableBlock(rotatedBlock)) {
             return true;
         } else {
             return false;
@@ -145,26 +145,26 @@ export default class Board {
 
     hardDrop() {
         while(this.isMovableToDown()) {
-            this.currentPiece.moveDown();
+            this.currentBlock.moveDown();
         }
 
-        this.putCurrentPieceOnGrid();
+        this.putCurrentBlockOnGrid();
 
-        this.currentPiece = new Piece();
+        this.currentBlock = new Block();
     }
     
     moveDown() {
         if(this.isMovableToDown()) {
-            this.currentPiece.moveDown();
+            this.currentBlock.moveDown();
         }
     }
 
     isMovableToDown() {
-        let moveDownPiece = this.currentPiece.getCopy();
+        let moveDownBlock = this.currentBlock.getCopy();
 
-        moveDownPiece.moveDown();
+        moveDownBlock.moveDown();
 
-        if(this.isPuttablePiece(moveDownPiece)) {
+        if(this.isPuttableBlock(moveDownBlock)) {
             return true;
         } else {
             return false;
@@ -173,16 +173,16 @@ export default class Board {
 
     moveLeft() {
         if(this.isMovableToLeft()) {
-            this.currentPiece.moveLeft();
+            this.currentBlock.moveLeft();
         }
     }
 
     isMovableToLeft() {
-        let moveLeftPiece = this.currentPiece.getCopy();
+        let moveLeftBlock = this.currentBlock.getCopy();
 
-        moveLeftPiece.moveLeft();
+        moveLeftBlock.moveLeft();
         
-        if(this.isPuttablePiece(moveLeftPiece)) {
+        if(this.isPuttableBlock(moveLeftBlock)) {
             return true;
         } else {
             return false;
@@ -191,23 +191,23 @@ export default class Board {
 
     moveRight() {
         if(this.isMovableToRight()) {
-            this.currentPiece.moveRight();
+            this.currentBlock.moveRight();
         }
     }
 
     isMovableToRight() {
-        let moveRightPiece = this.currentPiece.getCopy();
+        let moveRightBlock = this.currentBlock.getCopy();
 
-        moveRightPiece.moveRight();
+        moveRightBlock.moveRight();
 
-        if(this.isPuttablePiece(moveRightPiece)) {
+        if(this.isPuttableBlock(moveRightBlock)) {
             return true;
         } else {
             return false;
         }
     }
 
-    isPuttablePiece(p) {
+    isPuttableBlock(p) {
         return p.shape.every((row, dy) => {
             return row.every((value, dx) => {
                 let x = p.x + dx;

@@ -1,6 +1,6 @@
 import Board from './board.js';
 import Animator from './animator.js';
-import Piece from './piece.js';
+import Block from './block.js';
 import {KEY} from './constants.js';
 import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
@@ -32,8 +32,8 @@ function play() {
 
 function dropBlockToBoard() {
     //TODO: BlockGenerator 로 바꿀 예정
-    if(this.currentPiece == null) {
-        this.currentPiece = new Piece();
+    if(this.currentBlock == null) {
+        this.currentBlock = new Block();
     }
 
     if(isGameOver()) {
@@ -43,12 +43,12 @@ function dropBlockToBoard() {
     }
     
     //TODO: BlockDropper 로 바꿀 예정
-    //이제 board는 piece를 drop할 필요가 없다. 완전 별개로 작동.
-    this.dropPiece();
+    //이제 board는 Block를 drop할 필요가 없다. 완전 별개로 작동.
+    this.dropBlock();
 }
 
 function isGameOver() {
-    if(board.isCurrentPieceNotPuttable()) {
+    if(board.isCurrentBlockNotPuttable()) {
         return true;
     } else {
         return false;
@@ -77,7 +77,7 @@ function resume() {
 
     document.addEventListener('keydown', inputBlockMovement);
 
-    dropBlockIntervalKey = setInterval(board.dropPiece.bind(board), 1000);
+    dropBlockIntervalKey = setInterval(board.dropBlock.bind(board), 1000);
     animateIntervalKey = setInterval(animator.render.bind(animator), ANIMATION_FRAME);
 
     playPauseAndResumeSound();

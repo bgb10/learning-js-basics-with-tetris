@@ -1,6 +1,6 @@
 import { getRandomColors, getRandomShapes } from "./constants.js";
 
-export default class Piece {
+export default class Block {
     x;
     y;
     color;
@@ -20,7 +20,7 @@ export default class Piece {
     }
 
     getCopy() {
-        let copied = new Piece();
+        let copied = new Block();
 
         copied.changeTo(this);
 
