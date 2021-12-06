@@ -63,3 +63,14 @@ export const SHAPES = [
         [0, 0, 0]
     ]
 ];
+
+export const POINTS = {
+    SINGLE: 50,
+    DOUBLE: 150,
+    TRIPLE: 300,
+    TETRIS: 500
+}
+
+export const COMBO = [1, 1.05, 1.1, 1.12, 1.15, 1.18, 1.2, 1.23, 1.25, 1.27, 1.3, 1.5];
+
+export const LEVEL_UP_BORDER = [0, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000];
