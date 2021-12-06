@@ -4,6 +4,7 @@ import {KEY} from './constants.js';
 import { resetScore, resetLines } from './account.js';
 import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
+import { generateBlock } from './blockGenerator.js';
 
 let board = new Board();
 let animator = new Animator(board);
@@ -35,8 +36,37 @@ function dropBlockToBoard() {
         gameOver();
         return;
     }
-    
-    board.dropBlock();
+
+    if(board.isMovableToDown()) {
+        board.moveDown();
+
+        if(board.isCurrentBlockFixed()) {
+            putBlockAndClearLineAndGenerateNewBlock();
+        } else {
+            board.clearLine();
+        }
+    } else {
+        putBlockAndClearLineAndGenerateNewBlock();
+    }
+}
+
+function putBlockAndClearLineAndGenerateNewBlock() {
+    board.putCurrentBlockOnGrid();
+
+    board.clearLine();
+
+    generateNewBlock();
+}
+
+function generateNewBlock() {
+    let nextBlock = generateBlock();
+
+    if(board.isPuttableBlock(nextBlock)) {
+        board.currentBlock = nextBlock;
+    } else {
+        gameOver();
+        return;
+    }
 }
 
 function isGameOver() {
