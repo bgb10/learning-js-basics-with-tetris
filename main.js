@@ -1,8 +1,8 @@
 import Board from './board.js';
 import Animator from './animator.js';
 import {KEY} from './constants.js';
-import { resetScore, resetLines } from './account.js';
-import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playGameOverSound} from './sounds.js';
+import { resetScore, resetLines, addScore, addLines } from './account.js';
+import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playClearLineSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
 import { generateBlock } from './blockGenerator.js';
 
@@ -44,21 +44,34 @@ function dropBlockToBoard() {
         board.moveBlockDown();
 
         if(board.isBlockFixed()) {
-            putBlockAndClearLineAndGenerateNewBlock();
+            putBlockAndClearLineWithScoringAndGenerateNewBlock();
         } else {
-            board.clearLine();
+            clearLineWithScoring();
         }
     } else {
-        putBlockAndClearLineAndGenerateNewBlock();
+        putBlockAndClearLineWithScoringAndGenerateNewBlock();
     }
 }
 
-function putBlockAndClearLineAndGenerateNewBlock() {
+function putBlockAndClearLineWithScoringAndGenerateNewBlock() {
     board.putBlock();
 
-    board.clearLine();
+    clearLineWithScoring();
 
     generateNewBlock();
+}
+
+function clearLineWithScoring() {
+    scoring(board.clearLine());
+}
+
+function scoring(clearedLineCount) {
+    if(clearedLineCount != 0) {
+        playClearLineSound();
+    }
+
+    addLines(clearedLineCount);
+    addScore(clearedLineCount * 10);
 }
 
 function generateNewBlock() {

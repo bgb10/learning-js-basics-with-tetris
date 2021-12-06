@@ -43,16 +43,7 @@ export default class Board {
 
         // scoring
         let clearedLineCount = emptyGrid.length - clearedGrid.length;
-        this.scoring(clearedLineCount);
-    }
-
-    scoring(clearedLineCount) {
-        if(clearedLineCount != 0) {
-            playClearLineSound();
-        }
-
-        addLines(clearedLineCount);
-        addScore(clearedLineCount * 10);
+        return clearedLineCount;
     }
 
     putBlock() {
