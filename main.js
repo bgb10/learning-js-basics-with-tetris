@@ -14,6 +14,9 @@ let isPaused = false;
 let soundToggle = document.getElementById('sound-toggle');
 soundToggle.addEventListener('click', mute);
 
+let playButton = document.getElementById('play-button');
+playButton.addEventListener('click', play);
+
 let dropBlockIntervalKey = null;
 let animateIntervalKey = null;
 
@@ -171,5 +174,3 @@ function inputSettings(event) {
         }
     }
 }
-
-window.play = play;
