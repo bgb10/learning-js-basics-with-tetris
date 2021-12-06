@@ -1,8 +1,7 @@
 import { addLines, addScore } from './account.js';
 import { generateBlock } from './blockGenerator.js';
 import {ROWS, COLS} from './constants.js';
-import { playClearLineSound, playGameOverSound } from './sounds.js';
-import { gameOver } from './main.js';
+import { playClearLineSound } from './sounds.js';
 
 export default class Board {
     grid;
@@ -56,7 +55,7 @@ export default class Board {
         addScore(clearedLineCount * 10);
     }
 
-    putCurrentBlockOnGrid() {
+    putBlock() {
         this.currentBlock.shape.forEach((row, dy) => {
             row.forEach((value, dx) => {
                 let x = this.currentBlock.x + dx;
@@ -71,8 +70,8 @@ export default class Board {
         this.currentBlock = null;
     }
 
-    isCurrentBlockFixed() {
-        if(!this.isRotatable() && !this.isMovableToDown() && !this.isMovableToLeft() && !this.isMovableToRight()) {
+    isBlockFixed() {
+        if(!this.isRotatable() && !this.isBlockMovableToDown() && !this.isMovableToLeft() && !this.isMovableToRight()) {
             return true;
         } 
 
@@ -98,27 +97,27 @@ export default class Board {
     }
 
     hardDrop() {
-        while(this.isMovableToDown()) {
-            this.currentBlock.moveDown();
+        while(this.isBlockMovableToDown()) {
+            this.currentBlock.moveBlockDown();
         }
 
-        this.putCurrentBlockOnGrid();
+        this.putBlock();
 
         this.currentBlock = generateBlock();
     }
     
-    moveDown() {
-        if(this.isMovableToDown()) {
-            this.currentBlock.moveDown();
+    moveBlockDown() {
+        if(this.isBlockMovableToDown()) {
+            this.currentBlock.moveBlockDown();
         }
     }
 
-    isMovableToDown() {
-        let moveDownBlock = this.currentBlock.getCopy();
+    isBlockMovableToDown() {
+        let moveBlockDownBlock = this.currentBlock.getCopy();
 
-        moveDownBlock.moveDown();
+        moveBlockDownBlock.moveBlockDown();
 
-        if(this.isPuttableBlock(moveDownBlock)) {
+        if(this.isPuttableBlock(moveBlockDownBlock)) {
             return true;
         } else {
             return false;

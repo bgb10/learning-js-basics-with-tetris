@@ -37,10 +37,10 @@ function dropBlockToBoard() {
         return;
     }
 
-    if(board.isMovableToDown()) {
-        board.moveDown();
+    if(board.isBlockMovableToDown()) {
+        board.moveBlockDown();
 
-        if(board.isCurrentBlockFixed()) {
+        if(board.isBlockFixed()) {
             putBlockAndClearLineAndGenerateNewBlock();
         } else {
             board.clearLine();
@@ -51,7 +51,7 @@ function dropBlockToBoard() {
 }
 
 function putBlockAndClearLineAndGenerateNewBlock() {
-    board.putCurrentBlockOnGrid();
+    board.putBlock();
 
     board.clearLine();
 
@@ -139,7 +139,7 @@ function inputBlockMovement(event) {
             board.rotate();
             break;
         case KEY.DOWN:
-            board.moveDown();
+            board.moveBlockDown();
             break;
         case KEY.LEFT:
             board.moveLeft();

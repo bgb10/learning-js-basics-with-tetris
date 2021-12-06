@@ -41,7 +41,7 @@ export default class Block {
         this.shape.forEach(row => row.reverse());
     }
 
-    moveDown() {
+    moveBlockDown() {
         this.y++;
     }
 
