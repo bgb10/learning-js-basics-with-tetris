@@ -1,4 +1,5 @@
 let backgroundMusic = new Audio('./assets/background-music.m4a');
+backgroundMusic.loop = true;
 let hardDropSound = new Audio('./assets/hard-drop.wav');
 let blockMoveSound = new Audio('./assets/block-move.wav');
 let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
