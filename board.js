@@ -1,6 +1,7 @@
 import { addLines, addScore } from './account.js';
 import { generateBlock } from './blockGenerator.js';
 import {ROWS, COLS} from './constants.js';
+import { putBlockAndClearLineWithScoringAndGenerateNewBlock } from './main.js';
 import { playClearLineSound } from './sounds.js';
 
 export default class Board {
@@ -92,9 +93,7 @@ export default class Board {
             this.currentBlock.moveBlockDown();
         }
 
-        this.putBlock();
-
-        this.currentBlock = generateBlock();
+        putBlockAndClearLineWithScoringAndGenerateNewBlock();
     }
     
     moveBlockDown() {

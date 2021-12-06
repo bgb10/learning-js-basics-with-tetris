@@ -2,9 +2,10 @@ import Board from './board.js';
 import Animator from './animator.js';
 import {KEY} from './constants.js';
 import { resetScore, resetLines, addScore, addLines } from './account.js';
+import { resetCombo, scoring } from './scoring.js';
 import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playClearLineSound, playGameOverSound} from './sounds.js';
 import { ANIMATION_FRAME } from './settings.js';
-import { generateBlock } from './blockGenerator.js';
+import { generateBlock, resetGeneratedBlock } from './blockGenerator.js';
 
 let board = new Board();
 let animator = new Animator(board);
@@ -45,15 +46,15 @@ function dropBlockToBoard() {
 
         if(board.isBlockFixed()) {
             putBlockAndClearLineWithScoringAndGenerateNewBlock();
-        } else {
-            clearLineWithScoring();
         }
+        // 블록이 고정된 경우가 아니면 한 턴 더 움직일 수 있게 함.
     } else {
         putBlockAndClearLineWithScoringAndGenerateNewBlock();
     }
 }
 
-function putBlockAndClearLineWithScoringAndGenerateNewBlock() {
+// TODO: board 에서 main.js 에 있는 함수를 끌어다 쓰는게 옳은 일일까?
+export function putBlockAndClearLineWithScoringAndGenerateNewBlock() {
     board.putBlock();
 
     clearLineWithScoring();
@@ -62,16 +63,13 @@ function putBlockAndClearLineWithScoringAndGenerateNewBlock() {
 }
 
 function clearLineWithScoring() {
-    scoring(board.clearLine());
-}
-
-function scoring(clearedLineCount) {
+    let clearedLineCount = board.clearLine();
+    
     if(clearedLineCount != 0) {
         playClearLineSound();
     }
 
-    addLines(clearedLineCount);
-    addScore(clearedLineCount * 10);
+    scoring(clearedLineCount);
 }
 
 function generateNewBlock() {
@@ -131,6 +129,8 @@ function reset() {
 
     resetLines();
     resetScore();
+    resetCombo();
+    resetGeneratedBlock();
     
     clearInterval(dropBlockIntervalKey);
     clearInterval(animateIntervalKey);
