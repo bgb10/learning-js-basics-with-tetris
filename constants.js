@@ -73,4 +73,5 @@ export const POINTS = {
 
 export const COMBO_BONUS = [1, 1.05, 1.1, 1.12, 1.15, 1.18, 1.2, 1.23, 1.25, 1.27, 1.3, 1.5];
 
-export const LEVEL_UP_BORDER = [0, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000];
+export const LEVEL_UP_BORDER = [0, 0, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000];
+export const LEVEL_DROP_PERIOD = [0, 1000, 900, 700, 600, 500, 400, 300, 200, 100, 70];

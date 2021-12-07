@@ -1,9 +1,11 @@
 let linesElement = document.getElementById("lines");
 let scoreElement = document.getElementById("score");
+let levelElement = document.getElementById("level");
         
 export let accountValues = {
     score: 0,
-    lines: 0
+    lines: 0,
+    level: 1
 }
 
 export function setLines(lines) {
@@ -34,4 +36,13 @@ export function resetLines() {
 export function resetScore() {
     accountValues.score = 0;
     scoreElement.innerText = 0;
+}
+
+export function resetLevel() {
+    accountValues.level = 0;
+    levelElement.innerText = 1;
+}
+
+export function addLevel() {
+    levelElement.innerText = ++accountValues.level;
 }
