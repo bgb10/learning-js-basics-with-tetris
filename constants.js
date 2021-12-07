@@ -10,7 +10,6 @@ export const KEY = {
     UP: 38,
     P: 80
 }
-Object.freeze(KEY);
 
 export const COLORS = [
     'cyan',
@@ -21,10 +20,6 @@ export const COLORS = [
     'purple',
     'red'
 ];
-
-export function getRandomShapes() {
-    return SHAPES[Math.floor(Math.random() * SHAPES.length)];
-}
 
 export const SHAPES = [
     [
@@ -64,14 +59,24 @@ export const SHAPES = [
     ]
 ];
 
-export const POINTS = {
+export const POINTS_PER_LINE = {
     SINGLE: 50,
     DOUBLE: 150,
     TRIPLE: 300,
     TETRIS: 500
 }
 
-export const COMBO_BONUS = [1, 1.05, 1.1, 1.12, 1.15, 1.18, 1.2, 1.23, 1.25, 1.27, 1.3, 1.5];
+export const MULTIPLY_POINTS_BY_COMBO = [1, 1.05, 1.1, 1.12, 1.15, 1.18, 1.2, 1.23, 1.25, 1.27, 1.3, 1.5];
 
-export const LEVEL_UP_BORDER = [0, 0, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000];
-export const LEVEL_DROP_PERIOD = [0, 1000, 900, 700, 600, 500, 400, 300, 200, 100, 70];
+export const SCORE_UPPER_BOUND_BY_LEVEL = [0, 0, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000];
+export const DROP_PERIOD_BY_LEVEL = [0, 1000, 900, 700, 600, 500, 400, 300, 200, 100, 70];
+
+export const ANIMATION_FRAME = 50;
+
+Object.freeze(KEY);
+Object.freeze(COLORS);
+Object.freeze(SHAPES);
+Object.freeze(POINTS_PER_LINE);
+Object.freeze(MULTIPLY_POINTS_BY_COMBO);
+Object.freeze(SCORE_UPPER_BOUND_BY_LEVEL);
+Object.freeze(DROP_PERIOD_BY_LEVEL);

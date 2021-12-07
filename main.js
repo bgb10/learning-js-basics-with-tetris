@@ -1,10 +1,10 @@
 import Board from './board.js';
 import Animator from './animator.js';
-import {KEY, LEVEL_UP_BORDER, LEVEL_DROP_PERIOD} from './constants.js';
+import {KEY, SCORE_UPPER_BOUND_BY_LEVEL, DROP_PERIOD_BY_LEVEL} from './constants.js';
 import { resetScore, resetLines, addLevel, accountValues, resetLevel } from './account.js';
 import { resetCombo, scoring } from './scoring.js';
-import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playClearLineSound, playGameOverSound} from './sounds.js';
-import { ANIMATION_FRAME } from './settings.js';
+import {mute, playBackgroundMusic, playPressStartButtonSound, playPauseAndResumeSound, playHardDropSound, playBlockMoveSound, playClearLineSound, playGameOverSound} from './sounds/sounds.js';
+import { ANIMATION_FRAME } from './constants.js';
 import { generateBlock, resetGeneratedBlock } from './blockGenerator.js';
 
 let board = new Board();
@@ -28,7 +28,7 @@ function play() {
     document.addEventListener('keydown', inputSettings);
 
     //TODO: 게임오버를 관장하는 함수를 아래에 넣어서 drop 하기 전이나 block 을 컨트롤 하기 전에 체크할 것
-    dropBlockIntervalKey = setInterval(dropBlockToBoard, LEVEL_DROP_PERIOD[1]);
+    dropBlockIntervalKey = setInterval(dropBlockToBoard, DROP_PERIOD_BY_LEVEL[1]);
     animateIntervalKey = setInterval(animator.render.bind(animator), ANIMATION_FRAME);
 
     playBackgroundMusic();
@@ -53,12 +53,12 @@ function dropBlockToBoard() {
     }
 
     // change drop speed when reached new level
-    if(accountValues.score >= LEVEL_UP_BORDER[accountValues.level + 1]) {
+    if(accountValues.score >= SCORE_UPPER_BOUND_BY_LEVEL[accountValues.level + 1]) {
         // level up
         addLevel();
         // accelerate
         clearInterval(dropBlockIntervalKey);
-        dropBlockIntervalKey = setInterval(dropBlockToBoard, LEVEL_DROP_PERIOD[accountValues.level]);
+        dropBlockIntervalKey = setInterval(dropBlockToBoard, DROP_PERIOD_BY_LEVEL[accountValues.level]);
     }
 }
 

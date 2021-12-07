@@ -1,7 +1,7 @@
 import {addLines, addScore} from './account.js';
-import {POINTS, COMBO_BONUS} from  './constants.js';
+import {POINTS_PER_LINE, MULTIPLY_POINTS_BY_COMBO} from  './constants.js';
 
-let combo = -1; // tetris 규칙에서 combo 는 -1 로 시작된다고 명시되어 있다.
+let combo = -1; // tetris wiki에서 combo 는 -1 로 시작된다고 명시
 
 export function scoring(clearedLineCount) {
     let score = 0;
@@ -13,12 +13,12 @@ export function scoring(clearedLineCount) {
 
         score += 
         clearedLineCount == 0 ? 0 :
-        clearedLineCount == 1 ? POINTS.SINGLE :
-        clearedLineCount == 2 ? POINTS.DOUBLE :
-        clearedLineCount == 3 ? POINTS.TRIPLE :
-        clearedLineCount >= 4 ? POINTS.TETRIS : POINTS.TETRIS;
+        clearedLineCount == 1 ? POINTS_PER_LINE.SINGLE :
+        clearedLineCount == 2 ? POINTS_PER_LINE.DOUBLE :
+        clearedLineCount == 3 ? POINTS_PER_LINE.TRIPLE :
+        clearedLineCount >= 4 ? POINTS_PER_LINE.TETRIS : POINTS_PER_LINE.TETRIS;
 
-        score *= COMBO_BONUS[combo];
+        score *= MULTIPLY_POINTS_BY_COMBO[combo];
     }
 
     addLines(clearedLineCount);

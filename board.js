@@ -2,7 +2,7 @@ import { addLines, addScore } from './account.js';
 import { generateBlock } from './blockGenerator.js';
 import {ROWS, COLS} from './constants.js';
 import { putBlockAndClearLineWithScoringAndGenerateNewBlock } from './main.js';
-import { playClearLineSound } from './sounds.js';
+import { playClearLineSound } from './sounds/sounds.js';
 
 export default class Board {
     grid;

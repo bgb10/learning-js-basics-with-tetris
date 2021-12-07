@@ -1,4 +1,4 @@
-import { getRandomShapes, SHAPES} from "./constants.js";
+import {SHAPES} from "./constants.js";
 
 export default class Block {
     x;
@@ -13,13 +13,16 @@ export default class Block {
         this.shape = SHAPES[shapeIndex];
     }
 
-
     randomizedSpawn() {
         this.shape = getRandomShapes();
 
         // Starting position
         this.x = 3;
         this.y = 0;
+    }
+
+    getRandomShapes() {
+        return SHAPES[Math.floor(Math.random() * SHAPES.length)];
     }
 
     getCopy() {

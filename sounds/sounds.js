@@ -1,11 +1,11 @@
-let backgroundMusic = new Audio('./assets/background-music.m4a');
+let backgroundMusic = new Audio('./sounds/background-music.m4a');
 backgroundMusic.loop = true;
-let hardDropSound = new Audio('./assets/hard-drop.wav');
-let blockMoveSound = new Audio('./assets/block-move.wav');
-let pauseAndResumeSound = new Audio('./assets/pause-and-resume.wav');
-let pressStartButtonSound = new Audio('./assets/press-start-button.wav');
-let clearLineSound = new Audio('./assets/clear-line.wav');
-let gameOverSound = new Audio('./assets/game-over.wav');
+let hardDropSound = new Audio('./sounds/hard-drop.wav');
+let blockMoveSound = new Audio('./sounds/block-move.wav');
+let pauseAndResumeSound = new Audio('./sounds/pause-and-resume.wav');
+let pressStartButtonSound = new Audio('./sounds/press-start-button.wav');
+let clearLineSound = new Audio('./sounds/clear-line.wav');
+let gameOverSound = new Audio('./sounds/game-over.wav');
 
 let soundImgElement = document.getElementById("sound-img");
 
